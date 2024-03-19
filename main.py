@@ -36,4 +36,6 @@ def main():
     print("example output")
     print(prediction)
 
+if __name__ == '__main__':
+    main()
 
