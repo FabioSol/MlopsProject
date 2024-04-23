@@ -1,21 +1,24 @@
 import optuna
 from ucimlrepo import fetch_ucirepo
 from sklearn.pipeline import Pipeline
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from sklearn.svm import SVC
 from sklearn.calibration import CalibratedClassifierCV
-from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, make_scorer, classification_report,confusion_matrix
 from pipelines import CleanDataTransformer, preprocessor, clean_outliers
 import pickle
 from model import model_path
 import pandas as pd
+
 
 def hyperparam_optimization(n_trials: int = 100, save: bool = True):
     data = clean_outliers(fetch_ucirepo(id=890).data.original)
     y = data['cid']
     X = data.drop(['cid'], axis=1)
     X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.2, random_state=69)
+
+    # Custom scorer based on F1 score
+    f1_scorer = make_scorer(f1_score)
 
     def objective(trial):
         C = trial.suggest_float('C', 1e-3, 100)
@@ -33,10 +36,10 @@ def hyperparam_optimization(n_trials: int = 100, save: bool = True):
             ('classifier', calibrated_svc)
         ])
 
-        pipeline.fit(X_train, y_train)
-
-        y_pred = pipeline.predict(X_valid)
-        score = f1_score(y_valid, y_pred)
+        # Use cross-validation for evaluation
+        cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+        scores = cross_val_score(pipeline, X_train, y_train, cv=cv, scoring=f1_scorer)
+        score = scores.mean()
 
         return score
 
