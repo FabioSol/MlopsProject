@@ -3,13 +3,13 @@ from optimization import hyperparam_optimization
 
 
 def main():
-    best_params, report, cm=hyperparam_optimization()
+    best_params, report, cm = hyperparam_optimization()
 
     print("Best params: ", best_params)
     print(report)
     print(cm)
 
-    prediction =model_predict([[10140.0, #pidnum
+    prediction = model_predict([[10140.0, #pidnum
                    1181.0, #time
                    1.0, #trt
                    46.0,# age
