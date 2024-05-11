@@ -7,7 +7,7 @@ from sklearn.calibration import CalibratedClassifierCV
 from sklearn.metrics import f1_score, make_scorer, classification_report,confusion_matrix
 from pipelines import CleanDataTransformer, preprocessor, clean_outliers
 import pickle
-from model import model_path
+from aids_project.model import model_path
 import pandas as pd
 
 

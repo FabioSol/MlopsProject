@@ -1,5 +1,5 @@
 from ucimlrepo import fetch_ucirepo
-from data.schema import Patient
+from aids_project.data.schema import Patient
 
 def migrate_1():
     source = fetch_ucirepo(id=890)

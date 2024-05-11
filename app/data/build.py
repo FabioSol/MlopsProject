@@ -1,4 +1,4 @@
-from data.schema import Patient, database
+from aids_project.data.schema import Patient, database
 def create_tables():
     with database:
         database.create_tables([Patient])

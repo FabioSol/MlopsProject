@@ -2,7 +2,7 @@ import pickle
 import pandas as pd
 from typing import Iterable
 import numpy as np
-from model import model
+from aids_project.model import model
 
 def model_predict(l:list):
     column_names = ['pidnum', 'time', 'trt', 'age', 'wtkg', 'hemo', 'homo', 'drugs',
