@@ -5,9 +5,9 @@ from sklearn.model_selection import train_test_split, cross_val_score, Stratifie
 from sklearn.svm import SVC
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.metrics import f1_score, make_scorer, classification_report,confusion_matrix
-from pipelines import CleanDataTransformer, preprocessor, clean_outliers
+from app.pipelines import CleanDataTransformer, preprocessor, clean_outliers
 import pickle
-from aids_project.model import model_path
+from app.model import model_path
 import pandas as pd
 
 

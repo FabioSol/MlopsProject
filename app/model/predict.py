@@ -2,7 +2,7 @@ import pickle
 import pandas as pd
 from typing import Iterable
 import numpy as np
-from aids_project.model import model
+from model import model
 
 def model_predict(l:list):
     column_names = ['pidnum', 'time', 'trt', 'age', 'wtkg', 'hemo', 'homo', 'drugs',
@@ -16,9 +16,7 @@ def model_predict(l:list):
     else:
         raise NotImplementedError
 
-
-
-    predictions = model.predict_proba(data)
+    predictions = model.predict(data)
     return predictions
 
 

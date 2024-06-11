@@ -1,40 +1,47 @@
-from model.predict import model_predict
-from optimization import hyperparam_optimization
+import requests
 
 
 def main():
-    best_params, report, cm = hyperparam_optimization()
+    from faker import Faker
+    import random
 
-    print("Best params: ", best_params)
-    print(report)
-    print(cm)
+    fake = Faker()
 
-    prediction = model_predict([[10140.0, #pidnum
-                   1181.0, #time
-                   1.0, #trt
-                   46.0,# age
-                   88.9056,#wtkg
-                   0.0,#hemo
-                   1.0,#homo
-                   1.0,#drugs
-                   100.0,#karnof
-                   0.0, #oprior
-                   1.0,#z30
-                   1.0,#zprior
-                   1181.0,#preanti
-                   0.0,# race
-                   1.0,#gender
-                   1.0,#str2
-                   3.0,#strat
-                   0.0,#symptom
-                   1.0,#treat
-                   0.0,#offtrt
-                   235.0,#cd40
-                   339.0,#cd420
-                   860.0,#cd80
-                   1060.0]]*2)#cd820
-    print("example output")
-    print(prediction)
+    def generate_fake_data(num_samples):
+        fake_data = []
+        for _ in range(num_samples):
+            patient = {
+                "pidnum": fake.random_number(digits=5),
+                "time": random.randint(1, 100),
+                "trt": random.randint(0, 1),
+                "age": random.randint(18, 90),
+                "wtkg": random.uniform(40, 150),
+                "hemo": fake.boolean(),
+                "homo": fake.boolean(),
+                "drugs": fake.boolean(),
+                "karnof": random.randint(20, 100),
+                "oprior": fake.boolean(),
+                "z30": fake.boolean(),
+                "zprior": fake.boolean(),
+                "preanti": random.randint(0, 3),
+                "race": fake.boolean(),
+                "gender": fake.boolean(),
+                "str2": fake.boolean(),
+                "strat": random.randint(1, 5),
+                "symptom": fake.boolean(),
+                "treat": fake.boolean(),
+                "offtrt": fake.boolean(),
+                "cd40": random.randint(0, 10),
+                "cd420": random.randint(0, 10),
+                "cd80": random.randint(0, 10),
+                "cd820": random.randint(0, 10)
+            }
+            fake_data.append(patient)
+        return fake_data
+
+    X=generate_fake_data(1)[0]
+    print(X)
+    print(requests.post("http://localhost:8000/predict/",json=X).json())
 
 if __name__ == '__main__':
     main()
